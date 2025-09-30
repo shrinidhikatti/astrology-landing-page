@@ -1740,7 +1740,7 @@
         .whatsapp-btn {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             background: #25d366;
             color: white;
             width: 60px;
@@ -1760,6 +1760,30 @@
             transform: scale(1.1);
             box-shadow: 0 12px 35px rgba(37, 211, 102, 0.4);
         }
+        
+        /* Sample Book Download Button */
+        .sample-book-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #6a231d 0%, #8b4513 100%);
+            color: #fffcf5;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(106, 35, 29, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .sample-book-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(106, 35, 29, 0.4);
+        }
 
         @media (max-width: 768px) {
             .fixed-book-btn {
@@ -1778,10 +1802,16 @@
 
             .whatsapp-btn {
                 bottom: 15px;
-                left: 15px;
+                right: 15px;
                 width: 50px;
                 height: 50px;
                 font-size: 1.3rem;
+            }
+            .sample-book-btn {
+                bottom: 15px;
+                left: 15px;
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
@@ -2219,6 +2249,10 @@
     <a href="https://wa.me/1234567890" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
+    
+    <a href="#" class="sample-book-btn" onclick="downloadSampleReport()">
+        <img src="sample_book.png" alt="Sample Book" style="width: 40px; height: 40px; border-radius: 8px;">
+    </a>
 
     <!-- Order Form Modal -->
     <div class="modal" id="orderModal">
@@ -2327,6 +2361,16 @@
 
         function closeModal() {
             closeBookingModal();
+        }
+        
+        function downloadSampleReport() {
+            // Create a temporary link element to trigger download
+            const link = document.createElement('a');
+            link.href = 'sample_Report.pdf';
+            link.download = 'sample_Report.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function selectPackage(packageType, price) {
