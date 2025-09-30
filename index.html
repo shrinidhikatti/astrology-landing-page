@@ -355,6 +355,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 800px;
         }
 
         .astrology-book {
@@ -396,6 +397,83 @@
             border-radius: 50%;
             animation: glowPulse 4s ease-in-out infinite;
             z-index: -1;
+        }
+
+        /* Floating Elements Around Book */
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(3) { top: 15%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(4) { top: 25%; right: 15%; animation-delay: 1s; }
+        .floating-element:nth-child(5) { bottom: 20%; left: 8%; animation-delay: 2s; }
+        .floating-element:nth-child(6) { bottom: 15%; right: 12%; animation-delay: 3s; }
+        .floating-element:nth-child(7) { top: 50%; left: 5%; animation-delay: 4s; }
+        .floating-element:nth-child(8) { top: 50%; right: 5%; animation-delay: 5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            33% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+            66% { transform: translateY(-10px) rotate(-5deg); opacity: 0.8; }
+        }
+
+        /* Zodiac Ring Around Book */
+        .zodiac-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px;
+            height: 900px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            animation: zodiacRotate 60s linear infinite;
+            z-index: -1;
+        }
+
+        .zodiac-ring::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+        }
+
+        @keyframes zodiacRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Constellation Points */
+        .constellation {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .constellation:nth-child(10) { top: 10%; left: 20%; animation-delay: 0s; }
+        .constellation:nth-child(11) { top: 30%; left: 5%; animation-delay: 0.5s; }
+        .constellation:nth-child(12) { top: 60%; left: 10%; animation-delay: 1s; }
+        .constellation:nth-child(13) { top: 80%; left: 25%; animation-delay: 1.5s; }
+        .constellation:nth-child(14) { top: 10%; right: 20%; animation-delay: 2s; }
+        .constellation:nth-child(15) { top: 30%; right: 5%; animation-delay: 2.5s; }
+        .constellation:nth-child(16) { top: 60%; right: 10%; animation-delay: 3s; }
+        .constellation:nth-child(17) { top: 80%; right: 25%; animation-delay: 3.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
         }
 
         @keyframes bookFloat {
@@ -1594,6 +1672,27 @@
                     <div class="book-container">
                         <img src="astrology-book-round.PNG" alt="Astrology Book" class="astrology-book">
                         <div class="book-glow"></div>
+                        
+                        <!-- Zodiac Ring -->
+                        <div class="zodiac-ring"></div>
+                        
+                        <!-- Floating Astrological Elements -->
+                        <div class="floating-element" style="color: #d4af37;">🌟</div>
+                        <div class="floating-element" style="color: #6a231d;">🔮</div>
+                        <div class="floating-element" style="color: #d4af37;">✨</div>
+                        <div class="floating-element" style="color: #8b4513;">🌙</div>
+                        <div class="floating-element" style="color: #d4af37;">⭐</div>
+                        <div class="floating-element" style="color: #6a231d;">🌞</div>
+                        
+                        <!-- Constellation Points -->
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
+                        <div class="constellation"></div>
                     </div>
                 </div>
             </div>
