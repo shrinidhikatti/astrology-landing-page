@@ -45,10 +45,24 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #6a231d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
+            color: #6a231d;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #6a231d;
         }
 
         .header-cta {
@@ -125,20 +139,29 @@
             position: relative;
             z-index: 2;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            grid-template-columns: 1fr;
+            gap: 60px;
             align-items: center;
             min-height: 70vh;
+            text-align: center;
+        }
+
+        .hero-book {
+            order: 1;
         }
 
         .hero-text {
-            text-align: left;
+            order: 2;
+        }
+
+        .hero-text {
+            text-align: center;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.2;
             background: linear-gradient(135deg, #6a231d 0%, #8b4513 50%, #d4af37 100%);
             background-clip: text;
@@ -146,6 +169,25 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 2px 2px 4px rgba(106, 35, 29, 0.3);
             animation: titleGlow 4s ease-in-out infinite;
+            background-color: rgba(255, 252, 245, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 15px 35px rgba(106, 35, 29, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(106, 35, 29, 0.05) 100%);
+            z-index: -1;
         }
 
         @keyframes titleGlow {
@@ -158,23 +200,22 @@
         }
 
         .hero .subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
             opacity: 0.9;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .hero-stats {
-            display: flex;
-            justify-content: flex-start;
-            gap: 40px;
-            margin: 40px 0;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 35px 0;
         }
 
         .stat {
             background: rgba(255, 252, 245, 0.8);
-            padding: 20px;
+            padding: 18px 15px;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 8px 25px rgba(106, 35, 29, 0.15);
@@ -210,14 +251,18 @@
         }
 
         .hero-story {
-            background: linear-gradient(135deg, rgba(255, 252, 245, 0.9) 0%, rgba(245, 241, 232, 0.9) 100%);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px 0;
-            border: 2px solid rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, rgba(255, 252, 245, 0.95) 0%, rgba(245, 241, 232, 0.95) 100%);
+            padding: 35px;
+            border-radius: 25px;
+            margin: 35px 0;
+            border: 3px solid rgba(212, 175, 55, 0.5);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(106, 35, 29, 0.1);
+            box-shadow: 0 15px 40px rgba(106, 35, 29, 0.15);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-story::before {
@@ -225,10 +270,29 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 6px;
+            width: 8px;
             height: 100%;
-            background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+            background: linear-gradient(180deg, #d4af37 0%, #b8860b 50%, #d4af37 100%);
             animation: borderGlow 3s ease-in-out infinite;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .hero-story::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, transparent, #d4af37, transparent, #d4af37);
+            border-radius: 25px;
+            z-index: -1;
+            animation: borderShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes borderShimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
 
         @keyframes borderGlow {
@@ -242,14 +306,33 @@
 
         .hero-story h3 {
             color: #6a231d;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 1px 1px 2px rgba(106, 35, 29, 0.1);
+        }
+
+        .hero-story h3::before {
+            content: '✨';
+            font-size: 1.2rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .hero-story p {
             color: #6a231d;
             line-height: 1.7;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: justify;
+            letter-spacing: 0.3px;
         }
 
         .subtitle-small {
@@ -275,8 +358,8 @@
         }
 
         .astrology-book {
-            width: 500px;
-            height: 500px;
+            width: 700px;
+            height: 700px;
             object-fit: cover;
             border-radius: 50%;
             box-shadow: 
@@ -347,31 +430,32 @@
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             display: block;
             color: #6a231d;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.9;
-            margin-top: 5px;
+            margin-top: 8px;
+            line-height: 1.3;
         }
 
         .cta-button {
             background: linear-gradient(135deg, #6a231d 0%, #8b4513 50%, #d4af37 100%);
             color: #fffcf5;
-            padding: 20px 45px;
+            padding: 18px 35px;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            margin: 20px 10px;
+            margin: 15px 8px;
             box-shadow: 0 10px 30px rgba(106, 35, 29, 0.4);
             position: relative;
             overflow: hidden;
@@ -418,17 +502,29 @@
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 60px;
-            align-items: center;
+            align-items: start;
         }
 
         .instructor-image {
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .instructor-image img {
             width: 100%;
+            max-width: 400px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(106, 35, 29, 0.2);
+            border: 4px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .instructor-image img:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(106, 35, 29, 0.3);
+            border-color: rgba(212, 175, 55, 0.6);
         }
 
         .instructor-badge {
@@ -824,6 +920,142 @@
             color: #8b4513;
         }
 
+        /* Featured Section - PDF Page 8 Style */
+        .featured-section {
+            background: linear-gradient(135deg, #6a231d 0%, #8b4513 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .featured-section .section-header h2 {
+            color: #fffcf5;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .featured-section .section-header p {
+            color: #fffcf5;
+            opacity: 0.9;
+            margin-bottom: 50px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .featured-item {
+            background: rgba(255, 252, 245, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-cta {
+            margin-top: 40px;
+        }
+
+        /* Results Section - PDF Page 8 Style */
+        .results-section {
+            background: #fffcf5;
+            padding: 80px 0;
+        }
+
+        .results-section .section-header h2 {
+            color: #6a231d;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .results-section .section-header p {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .result-video {
+            background: #6a231d;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .result-video:hover {
+            transform: scale(1.05);
+        }
+
+        .video-placeholder {
+            text-align: center;
+            color: #fffcf5;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(106, 35, 29, 0.9) 0%, rgba(139, 69, 19, 0.9) 100%);
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(212, 175, 55, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #6a231d;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #d4af37;
+            transform: scale(1.1);
+        }
+
+        .video-info h4 {
+            color: #fffcf5;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .video-info p {
+            color: #d4af37;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
         /* Mobile Responsiveness for new sections */
         @media (max-width: 768px) {
             .top-cards-grid {
@@ -862,6 +1094,20 @@
             .feature-item {
                 flex-direction: column;
                 gap: 10px;
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .featured-image {
+                height: 250px;
             }
         }
 
@@ -1039,27 +1285,29 @@
                 text-align: center;
             }
 
-            .hero-text {
-                text-align: center;
-                order: 2;
-            }
-
-            .hero-book {
-                order: 1;
-            }
-
             .hero h1 {
                 font-size: 2.5rem;
+                background-color: transparent;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+                text-align: center;
+            }
+
+            .hero h1::before {
+                display: none;
             }
 
             .hero-stats {
+                display: flex;
                 justify-content: center;
                 gap: 30px;
+                flex-wrap: wrap;
             }
 
             .astrology-book {
-                width: 300px;
-                height: 300px;
+                width: 400px;
+                height: 400px;
             }
 
             .instructor-content {
@@ -1105,13 +1353,14 @@
 
         .modal-content {
             background: #fffcf5;
-            margin: 5% auto;
+            margin: 2% auto;
             padding: 0;
             border-radius: 20px;
             width: 90%;
             max-width: 500px;
+            max-height: 95vh;
             position: relative;
-            overflow: hidden;
+            overflow-y: auto;
             box-shadow: 0 25px 50px rgba(106, 35, 29, 0.3);
             animation: modalSlideIn 0.3s ease-out;
         }
@@ -1299,9 +1548,9 @@
         <div class="container">
             <div class="header-content">
                 <a href="#" class="logo">
-                    <i class="fas fa-star"></i> Astrology Master
+                    <img src="logo.jpeg" alt="Shri VM Joshi Vastu and Astrologer" class="logo-image">
+                    <span class="logo-text">Shri VM Joshi Vastu and Astrologer</span>
                 </a>
-                <a href="#register" class="header-cta">Reserve Your Spot ₹99</a>
             </div>
         </div>
     </header>
@@ -1337,7 +1586,7 @@
                     
                     <div class="hero-buttons">
                         <a href="#" class="cta-button" onclick="openBookingModal()">📖 Get Your Jeevan Margadarshana Now</a>
-                        <a href="#features" class="cta-button secondary">Learn More</a>
+                        <!-- <a href="#features" class="cta-button secondary">Learn More</a> -->
                     </div>
                 </div>
                 
@@ -1351,16 +1600,45 @@
         </div>
     </section>
 
+    <!-- Video Section -->
+    <section class="features-analysis-section">
+        <div class="container">
+            <div class="analysis-header">
+                <h2>Jeevan Margadarshana</h2>
+                <p style="color: #fffcf5; opacity: 0.9; margin-top: 20px;">Discover how this master report has transformed thousands of lives</p>
+            </div>
+            
+            <div style="display: flex; justify-content: center; margin-top: 40px;">
+                <div style="width: 100%; max-width: 800px; background: rgba(255, 252, 245, 0.1); border-radius: 20px; padding: 20px;">
+                    <div style="position: relative; width: 100%; height: 450px; background: linear-gradient(135deg, rgba(106, 35, 29, 0.9) 0%, rgba(139, 69, 19, 0.9) 100%); border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="width: 80px; height: 80px; background: rgba(212, 175, 55, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; font-size: 2rem; color: #6a231d; transition: all 0.3s ease;" onmouseover="this.style.background='#d4af37'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(212, 175, 55, 0.9)'; this.style.transform='scale(1)'">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <h3 style="color: #fffcf5; margin-bottom: 15px; font-size: 1.5rem; text-align: center;">Understanding Your Life's Blueprint</h3>
+                        <p style="color: #d4af37; font-size: 1.1rem; opacity: 0.9; text-align: center; max-width: 600px;">Learn how Shri V. M. Joshi's 25+ years of expertise creates your personalized Jeevan Margadarshana report with precise predictions and practical remedies.</p>
+                        <div style="position: absolute; top: 15px; right: 15px; background: rgba(212, 175, 55, 0.2); padding: 8px 15px; border-radius: 20px; color: #fffcf5; font-size: 0.9rem; font-weight: 600;">
+                            ▶ Watch Preview
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="cta-button" onclick="openBookingModal()" style="background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: #6a231d; font-weight: 700;">📖 Get Your Jeevan Margadarshana Now</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Instructor Section -->
     <section id="about" class="instructor-section">
         <div class="container">
             <div class="instructor-content">
                 <div class="instructor-image">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" alt="Shri V. M. Joshi">
-                    <div class="instructor-badge">25+ Years Expert</div>
+                    <img src="sachin3.JPG" alt="Shri V. M. Joshi">
+                    <!-- <div class="instructor-badge">25+ Years Expert</div> -->
                 </div>
                 <div class="instructor-info">
-                    <h2>Shri V. M. Joshi</h2>
+                    <h2>SHRI SACHIN JOSHI</h2>
                     <p class="instructor-title">Vastu & Astrologer | Creator of Jeevan Margadarshana</p>
                     <p class="instructor-description">
                         With over 25 years of dedicated practice in Vedic astrology and Vastu, Shri V. M. Joshi has guided thousands of families toward prosperity and peace. His masterpiece, Jeevan Margadarshana, is more than a horoscope—it's a comprehensive life guide that reveals your true path with practical remedies and deep insights.
@@ -1391,111 +1669,57 @@
         </div>
     </section>
 
-    <!-- Why Choose Section - PDF Page 3 Style -->
-    <section class="why-choose-section">
-        <div class="why-top-cards">
-            <div class="container">
-                <div class="top-cards-grid">
-                    <div class="top-card">
-                        <div class="card-icon">👥</div>
-                        <p>Get as many Astrology clients as you want so you're never short of business.</p>
-                    </div>
-                    <div class="top-card">
-                        <div class="card-icon">📋</div>
-                        <p>Transform yours & the people's life around you with your Astrology skills</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="why-main-section">
-            <div class="container">
-                <div class="why-content">
-                    <div class="why-text">
-                        <div class="why-question">
-                            But why GET JEEVAN MARGADARSHANA with us?
-                        </div>
-                    </div>
-                    <div class="instructor-circle">
-                        <div class="astro-wheel">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Shri V. M. Joshi" class="instructor-photo">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Analysis Section - PDF Page 4 Style -->
-    <section class="features-analysis-section">
+    <!-- What Makes Different Section -->
+    <section class="benefits-section">
         <div class="container">
-            <div class="analysis-header">
-                <h2>Future को Accurately Predict करे... और Astrologer बनके 10 Lakhs प्रति माह तक कमाने का Secret Formula जाने</h2>
+            <div class="section-header">
+                <h2>What Makes Jeevan Margadarshana Different?</h2>
+                <p>Unlike generic horoscopes, this is a master book of your life</p>
             </div>
-            
-            <div class="analysis-cards">
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-icon-large">📊</div>
-                        <h3>Section #1</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #1:</strong> Complete 12 Bhava Analysis - every aspect of life explained</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #2:</strong> Ghatachakras & Sade Sati - time cycles decoded</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #3:</strong> All Major Doshas Identification</span>
-                        </div>
-                    </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📖</div>
+                    <h3>Complete 12 Bhava Analysis</h3>
+                    <p>Every aspect of life explained in detail with practical insights and guidance</p>
                 </div>
-
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-icon-large">💍</div>
-                        <h3>Section #2</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #4:</strong> Marriage Matching & Compatibility Analysis</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #5:</strong> Career & Business Roadmap with timing</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #6:</strong> Wealth & Property predictions</span>
-                        </div>
-                    </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏳</div>
+                    <h3>Ghatachakras & Sade Sati</h3>
+                    <p>Time cycles decoded to understand life's natural rhythms and transitions</p>
                 </div>
-
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-icon-large">🔮</div>
-                        <h3>Section #3</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #7:</strong> Personal Lucky Aspects - numbers, colors, directions</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #8:</strong> Comprehensive Remedies Section</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text"><strong>Secret #9:</strong> Secret remedies for success revealed only to report holders</span>
-                        </div>
-                    </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚖️</div>
+                    <h3>All Major Doshas Identified</h3>
+                    <p>Mangal, Kalasarpa, Rahu-Angarak, Guru-Rahu, Panchamarista & more</p>
                 </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💍</div>
+                    <h3>Marriage Matching Section</h3>
+                    <p>Compatibility, timing & harmony guidance for relationships</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💼</div>
+                    <h3>Career & Business Roadmap</h3>
+                    <p>Detailed predictions with solutions for professional growth</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏡</div>
+                    <h3>Wealth & Property Guidance</h3>
+                    <p>When and how you'll achieve houses, vehicles, and wealth</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌈</div>
+                    <h3>Personal Lucky Aspects</h3>
+                    <p>Lucky number, god, directions, days, colors - all personalized</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔷</div>
+                    <h3>Comprehensive Remedy Section</h3>
+                    <p>Rudraksh, gemstones & Vedic solutions, explained simply</p>
+                </div>
+            </div>
+            <div class="section-header" style="margin-top: 40px;">
+                <p style="font-size: 1.3rem; font-weight: 600; color: #6a231d;">Clarity for the common man. Depth for the serious astrologer.</p>
             </div>
         </div>
     </section>
@@ -1532,6 +1756,52 @@
                     <div class="target-icon">🕉️</div>
                     <h3>Spiritual seekers</h3>
                     <p>Peace, prosperity & self-awareness</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Student Results Section -->
+    <section class="results-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Client's Results Speak For Us</h2>
+                <p>Have A Look At What They Have To Say About Us</p>
+            </div>
+            <div class="results-grid">
+                <div class="result-video">
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-info">
+                            <h4>Client Testimonial 1</h4>
+                            <p>Real success story</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-video">
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-info">
+                            <h4>Client Testimonial 2</h4>
+                            <p>Life transformation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-video">
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-info">
+                            <h4>Client Testimonial 3</h4>
+                            <p>Accurate predictions</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1648,8 +1918,8 @@
     <!-- Final CTA Section -->
     <section id="register" class="final-cta">
         <div class="container">
-            <h2>🚀 Your Future is Too Precious to Leave to Chance</h2>
-            <p>🎁 Own your Jeevan Margadarshana Report today and step into clarity, peace, and prosperity</p>
+            <h2>Your Future is Too Precious to Leave to Chance</h2>
+            <p> Own your Jeevan Margadarshana Report today and step into clarity, peace, and prosperity</p>
             
             <div class="price-highlight">
                 <div class="current-price">Get Your Life's Master Script</div>
