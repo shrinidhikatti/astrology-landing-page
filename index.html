@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="config.js"></script>
     <style>
         * {
             margin: 0;
@@ -1434,8 +1433,8 @@
             margin: 2% auto;
             padding: 0;
             border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 800px;
             max-height: 95vh;
             position: relative;
             overflow-y: auto;
@@ -1455,10 +1454,11 @@
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #6a231d 0%, #8b4513 100%);
-            color: #fffcf5;
+            background: #fffcf5;
+            color: #6a231d;
             padding: 30px;
             text-align: center;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
         }
 
         .modal-header h2 {
@@ -1488,7 +1488,7 @@
         }
 
         .modal-body {
-            padding: 40px 30px;
+            padding: 40px 40px;
         }
 
         .form-group {
@@ -1549,6 +1549,130 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* Package Selection Styles */
+        .package-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .package-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #fffcf5;
+        }
+
+        .package-option:hover {
+            border-color: #6a231d;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(106, 35, 29, 0.15);
+        }
+
+        .package-option.selected {
+            border-color: #6a231d;
+            background: linear-gradient(135deg, #fffcf5 0%, #f5f1e8 100%);
+            box-shadow: 0 8px 25px rgba(106, 35, 29, 0.2);
+        }
+
+        .package-option input[type="radio"] {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin: 0;
+        }
+
+        .package-title {
+            font-weight: 600;
+            color: #6a231d;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .package-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-title {
+            color: #6a231d;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #6a231d;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(106, 35, 29, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(106, 35, 29, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #6a231d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .package-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Fixed Book Report Button */
@@ -2052,74 +2176,473 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Book My Report Modal -->
-    <div id="bookingModal" class="modal">
+    <!-- Order Form Modal -->
+    <div class="modal" id="orderModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <span class="close" onclick="closeBookingModal()">&times;</span>
-                <h2>Book Your Personalized Astrology Report</h2>
-                <p>Get detailed insights into your future with our expert analysis</p>
-            </div>
-            <div class="modal-body">
-                <form id="bookingForm">
-                    <div class="form-group">
-                        <label for="fullName">Full Name *</label>
-                        <input type="text" id="fullName" name="fullName" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="form-title">Book Your Personalized Report</h2>
+            <form id="orderForm" style="padding: 0 40px 40px 40px;">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group">
                         <label for="birthDate">Date of Birth *</label>
                         <input type="date" id="birthDate" name="birthDate" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="birthTime">Time of Birth</label>
-                        <input type="time" id="birthTime" name="birthTime">
+                        <label for="birthTime">Birth Time *</label>
+                        <input type="time" id="birthTime" name="birthTime" required>
                     </div>
-                    
+                </div>
+
+                <div class="form-group">
+                    <label for="birthPlace">Birth Place (Nearest Taluka/City) *</label>
+                    <input type="text" id="birthPlace" name="birthPlace" required>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="birthPlace">Place of Birth *</label>
-                        <input type="text" id="birthPlace" name="birthPlace" required>
+                        <label for="whatsapp">WhatsApp Number *</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="reportType">Report Type *</label>
-                        <select id="reportType" name="reportType" required>
-                            <option value="">Select Report Type</option>
-                            <option value="general">General Life Report - ₹999</option>
-                            <option value="career">Career & Finance Report - ₹799</option>
-                            <option value="marriage">Marriage & Relationship Report - ₹899</option>
-                            <option value="health">Health & Wellness Report - ₹699</option>
-                            <option value="comprehensive">Comprehensive Report - ₹1499</option>
-                        </select>
+                        <label for="email">Email Address (Optional)</label>
+                        <input type="email" id="email" name="email">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="specificQuestions">Specific Questions (Optional)</label>
-                        <textarea id="specificQuestions" name="specificQuestions" placeholder="Any specific areas you'd like us to focus on..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Postal Address *</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="pincode">Postal Pin Code *</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Choose Your Package *</label>
+                    <div class="package-selection">
+                        <div class="package-option" onclick="selectPackage('pdf', 699)">
+                            <input type="radio" name="package" value="pdf" id="pdfPackage">
+                            <div class="package-title">PDF Report</div>
+                            <div class="package-price">₹699</div>
+                        </div>
+                        <div class="package-option" onclick="selectPackage('print', 1199)">
+                            <input type="radio" name="package" value="print" id="printPackage">
+                            <div class="package-title">Print Book</div>
+                            <div class="package-price">₹1199</div>
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        Proceed to Payment
-                    </button>
-                </form>
-            </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing your order...</p>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Pay Now - ₹<span id="totalAmount">0</span>
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-        // EmailJS Configuration
-        emailjs.init(DEV_CONFIG.emailjs.publicKey);
+        // Define all global functions FIRST - before any other code
+        function openBookingModal() {
+            console.log('openBookingModal called'); // Debug log
+            const modal = document.getElementById('orderModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                console.log('Modal opened successfully');
+            } else {
+                console.error('Modal with ID orderModal not found');
+            }
+        }
+
+        // Also define on window object for extra safety
+        window.openBookingModal = openBookingModal;
+
+        function closeBookingModal() {
+            const modal = document.getElementById('orderModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function openModal() {
+            openBookingModal();
+        }
+
+        function closeModal() {
+            closeBookingModal();
+        }
+
+        function selectPackage(packageType, price) {
+            // Remove selected class from all packages
+            document.querySelectorAll('.package-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Add selected class to clicked package
+            event.currentTarget.classList.add('selected');
+            
+            // Update radio button
+            document.getElementById(packageType + 'Package').checked = true;
+            
+            selectedPackage = packageType;
+            selectedPrice = price;
+            document.getElementById('totalAmount').textContent = price;
+        }
+
+        // Global variables
+        let selectedPackage = null;
+        let selectedPrice = 0;
+
+        // Initialize EmailJS with the correct public key
+        emailjs.init('eK_GyH5mwoblODVyg');
+
+        // ✅ CORRECTED EMAILJS CONFIGURATION WITH REAL TEMPLATES
+        const CONFIG = {
+            emailjs: {
+                publicKey: 'eK_GyH5mwoblODVyg',
+                serviceId: 'service_ns4jxpq', // ✅ New service from your dashboard
+                templateId: 'template_kfcis1k', // ✅ New Order Notification template
+                customerTemplateId: 'template_i1gc69e' // ✅ Customer Order Confirmation template
+            },
+            googleSheets: {
+                scriptUrl: 'https://script.google.com/macros/s/AKfycbyx5b0kyBVVzfQwFqYLLl7JN7cc5NXAwf0KePrVCH0LYqLr0RW0T5GvTF-S4JlSTQQiWw/exec'
+            },
+            whatsapp: {
+                token: '', // ❌ DISABLED - not real token
+                phoneNumberId: '' // ❌ DISABLED - not real ID
+            },
+            razorpay: {
+                keyId: 'rzp_test_xxxxxxxxx'
+            }
+        };
+
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Form submission handler - wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderForm = document.getElementById('orderForm');
+            if (orderForm) {
+                orderForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (!selectedPackage) {
+                        alert('Please select a package');
+                        return;
+                    }
+
+                    const formData = new FormData(this);
+                    const orderData = {
+                        fullName: formData.get('fullName'),
+                        birthDate: formData.get('birthDate'),
+                        birthTime: formData.get('birthTime'),
+                        birthPlace: formData.get('birthPlace'),
+                        whatsapp: formData.get('whatsapp'),
+                        email: formData.get('email') || 'Not provided',
+                        address: formData.get('address'),
+                        pincode: formData.get('pincode'),
+                        package: selectedPackage,
+                        amount: selectedPrice,
+                        orderId: 'ORD' + Date.now()
+                    };
+
+                    processPayment(orderData);
+                });
+            } else {
+                console.error('Order form not found');
+            }
+        });
+
+        function processPayment(orderData) {
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            
+            // TEST MODE - Smart payment simulation
+            const isTestMode = true; // Set to false when you want to use real Razorpay
+            
+            if (isTestMode) {
+                // Check if this is a failure test scenario
+                const testName = orderData.fullName.toLowerCase();
+                const isFailureTest = testName.includes('fail') || testName.includes('decline') || 
+                                    testName.includes('pin') || testName.includes('cancel') || 
+                                    testName.includes('network') || testName.includes('expired');
+                
+                if (isFailureTest) {
+                    console.log('🧪 TEST MODE: Simulating payment failure scenario');
+                    // Let the failure test mode handle this (continue to Razorpay simulation)
+                } else {
+                    // Simulate successful payment for non-failure tests
+                    setTimeout(() => {
+                        const mockPaymentResponse = {
+                            razorpay_payment_id: 'pay_test_' + Date.now(),
+                            razorpay_signature: 'mock_signature_' + Date.now()
+                        };
+                        
+                        console.log('🧪 TEST MODE: Simulating successful payment');
+                        handlePaymentSuccess(mockPaymentResponse, orderData);
+                    }, 2000);
+                    return;
+                }
+            }
+            
+            // Real Razorpay configuration (when isTestMode = false)
+            const options = {
+                key: CONFIG.razorpay.keyId,
+                amount: orderData.amount * 100, // Amount in paise
+                currency: 'INR',
+                name: 'AstroVision',
+                description: `Personalized Astrology Report - ${orderData.package.toUpperCase()}`,
+                order_id: orderData.orderId,
+                prefill: {
+                    name: orderData.fullName,
+                    email: orderData.email,
+                    contact: orderData.whatsapp
+                },
+                theme: {
+                    color: '#667eea'
+                },
+                handler: function(response) {
+                    // Payment successful
+                    handlePaymentSuccess(response, orderData);
+                },
+                modal: {
+                    ondismiss: function() {
+                        // Payment cancelled by user
+                        console.log('💳 Payment cancelled by user');
+                        document.getElementById('loading').style.display = 'none';
+                        alert('💳 Payment was cancelled. Your order has not been placed.\n\nPlease try again when ready.');
+                    },
+                    onhidden: function() {
+                        // Payment modal closed (could be due to error)
+                        console.log('💳 Payment modal closed');
+                        document.getElementById('loading').style.display = 'none';
+                    }
+                },
+                // Handle payment failures
+                error: function(error) {
+                    console.error('💳 Payment Error:', error);
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    // 📊 TRACK FAILED PAYMENT - POTENTIAL CUSTOMER LEAD
+                    handlePaymentFailure(error, orderData);
+                    
+                    let errorMessage = '❌ Payment Failed!\n\n';
+                    
+                    // Different error scenarios
+                    if (error.code === 'BAD_REQUEST_ERROR') {
+                        errorMessage += 'Invalid payment details. Please check and try again.';
+                    } else if (error.code === 'GATEWAY_ERROR') {
+                        errorMessage += 'Payment gateway error. Please try again.';
+                    } else if (error.code === 'NETWORK_ERROR') {
+                        errorMessage += 'Network connection issue. Please check your internet and try again.';
+                    } else if (error.code === 'SERVER_ERROR') {
+                        errorMessage += 'Server error. Please try again after some time.';
+                    } else if (error.description && error.description.includes('insufficient')) {
+                        errorMessage += 'Insufficient funds in your account. Please check your balance.';
+                    } else if (error.description && error.description.includes('declined')) {
+                        errorMessage += 'Payment declined by your bank. Please contact your bank or try a different payment method.';
+                    } else if (error.description && error.description.includes('expired')) {
+                        errorMessage += 'Card has expired. Please use a valid card.';
+                    } else if (error.description && error.description.includes('pin')) {
+                        errorMessage += 'Incorrect PIN entered. Please try again with the correct PIN.';
+                    } else {
+                        errorMessage += error.description || 'Unknown payment error occurred.';
+                    }
+                    
+                    errorMessage += '\n\n🔒 Your order has not been placed and no charges have been made.';
+                    errorMessage += '\n\n💬 Our team may contact you to assist with your order.';
+                    
+                    alert(errorMessage);
+                }
+            };
+
+            // Hide loading and open Razorpay checkout
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                const rzp = new Razorpay(options);
+                rzp.open();
+            }, 1000);
+        }
+
+        // 📊 HANDLE PAYMENT FAILURE - CAPTURE POTENTIAL CUSTOMER LEADS
+        async function handlePaymentFailure(error, orderData) {
+            try {
+                console.log('📊 Tracking failed payment attempt...');
+                
+                const failureId = 'FAIL_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                const timestamp = new Date().toLocaleString('en-IN');
+                
+                const failureData = {
+                    failure_id: failureId,
+                    customer_name: orderData.fullName,
+                    birth_date: orderData.birthDate,
+                    birth_time: orderData.birthTime,
+                    birth_place: orderData.birthPlace,
+                    whatsapp: orderData.whatsapp,
+                    email: orderData.email,
+                    address: orderData.address,
+                    pincode: orderData.pincode,
+                    package: orderData.package.toUpperCase(),
+                    amount: orderData.amount,
+                    failure_reason: error.code + ': ' + (error.description || 'Unknown error'),
+                    timestamp: timestamp,
+                    status: 'PAYMENT_FAILED'
+                };
+                
+                console.log('📊 Failed payment data:', failureData);
+            
+                // 📧 Send email notification to business owner about failed payment
+                await sendFailedPaymentNotification(failureData);
+                
+                // 📊 Save to Google Sheets for follow-up
+                await saveFailedPaymentToSheet(failureData);
+                
+            } catch (trackingError) {
+                console.error('❌ Error tracking failed payment:', trackingError);
+                // Don't show this error to user - it's internal tracking
+            }
+        }
+
+        async function handlePaymentSuccess(paymentResponse, orderData) {
+            document.getElementById('loading').style.display = 'block';
+            
+            try {
+                // Add payment details to order data
+                const completeOrderData = {
+                    ...orderData,
+                    paymentId: paymentResponse.razorpay_payment_id,
+                    paymentSignature: paymentResponse.razorpay_signature,
+                    orderStatus: 'Confirmed',
+                    timestamp: new Date().toISOString(),
+                    dateCreated: new Date().toLocaleDateString('en-IN'),
+                    timeCreated: new Date().toLocaleTimeString('en-IN')
+                };
+
+                console.log('=== PROCESSING ORDER ==>');
+                console.log('Complete Order Data:', completeOrderData);
+
+                // Save order and send notifications
+                await saveToGoogleSheets(completeOrderData);
+                await sendEmailNotification(completeOrderData);
+                
+                // Success message
+                document.getElementById('loading').style.display = 'none';
+                alert('🎉 Payment successful! Your order has been confirmed.\n\nOrder ID: ' + orderData.orderId + '\nYou will receive your report within 2-5 business days.');
+                
+                closeModal();
+                document.getElementById('orderForm').reset();
+                selectedPackage = null;
+                selectedPrice = 0;
+                document.getElementById('totalAmount').textContent = '0';
+                document.querySelectorAll('.package-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+
+            } catch (error) {
+                console.error('Critical error processing order:', error);
+                document.getElementById('loading').style.display = 'none';
+                alert('Error processing order: ' + error.message + '\n\nPayment ID: ' + paymentResponse.razorpay_payment_id);
+            }
+        }
+
+        // Save order to Google Sheets
+        async function saveToGoogleSheets(orderData) {
+            try {
+                console.log('Attempting to save to Google Sheets...');
+                const response = await fetch(CONFIG.googleSheets.scriptUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                console.log('Google Sheets response received');
+                return 'Google Sheets updated successfully';
+            } catch (error) {
+                console.error('Google Sheets Error Details:', error);
+                throw new Error('Failed to save to Google Sheets: ' + error.message);
+            }
+        }
+
+        // Send email notification using EmailJS
+        async function sendEmailNotification(orderData) {
+            try {
+                console.log('📧 Attempting to send email notification...');
+                
+                const emailData = {
+                    subject: `🌟 New Astrology Order Confirmed - ${orderData.orderId}`,
+                    customer_name: orderData.fullName,
+                    order_id: orderData.orderId,
+                    birth_date: orderData.birthDate,
+                    birth_time: orderData.birthTime,
+                    birth_place: orderData.birthPlace,
+                    whatsapp: orderData.whatsapp,
+                    email: orderData.email,
+                    address: orderData.address,
+                    pincode: orderData.pincode,
+                    package: orderData.package.toUpperCase(),
+                    amount: orderData.amount,
+                    payment_id: orderData.paymentId,
+                    timestamp: new Date().toLocaleString('en-IN'),
+                    message: `🌟 NEW ORDER CONFIRMED & PAYMENT SUCCESSFUL
+
+📋 CUSTOMER DETAILS:
+Name: ${orderData.fullName}
+WhatsApp: ${orderData.whatsapp}
+Email: ${orderData.email}
+
+📅 BIRTH DETAILS FOR REPORT:
+Date: ${orderData.birthDate}
+Time: ${orderData.birthTime}
+Place: ${orderData.birthPlace}
+
+💰 ORDER DETAILS:
+Order ID: ${orderData.orderId}
+Package: ${orderData.package.toUpperCase()} Report
+Amount: ₹${orderData.amount}
+Payment ID: ${orderData.paymentId}
+
+📍 DELIVERY ADDRESS:
+${orderData.address}
+PIN: ${orderData.pincode}
+
+⏰ Order Time: ${orderData.timestamp}`
+                };
+                
+                const result = await emailjs.send(
+                    CONFIG.emailjs.serviceId,
+                    CONFIG.emailjs.templateId,
+                    emailData
+                );
+                
+                console.log('✅ Email notification sent successfully:', result);
+                return '✅ Email sent successfully';
+                
+            } catch (error) {
+                console.error('❌ Email Error:', error);
+                throw new Error('Failed to send email: ' + (error.text || error.message));
+            }
+        }
 
         // FAQ Functionality
         document.querySelectorAll('.faq-question').forEach(button => {
@@ -2153,170 +2676,6 @@
                     });
                 }
             });
-        });
-
-        // Modal Functions
-        function openBookingModal() {
-            document.getElementById('bookingModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeBookingModal() {
-            document.getElementById('bookingModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('bookingModal');
-            if (event.target == modal) {
-                closeBookingModal();
-            }
-        }
-
-        // Report prices
-        const reportPrices = {
-            'general': 99900, // ₹999 in paise
-            'career': 79900,  // ₹799 in paise
-            'marriage': 89900, // ₹899 in paise
-            'health': 69900,  // ₹699 in paise
-            'comprehensive': 149900 // ₹1499 in paise
-        };
-
-        // Form submission
-        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Processing...';
-            submitBtn.disabled = true;
-
-            try {
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                if (!data.reportType) {
-                    throw new Error('Please select a report type');
-                }
-
-                // Add timestamp and additional info
-                data.timestamp = new Date().toISOString();
-                data.status = 'pending_payment';
-
-                // Send to Google Sheets
-                await fetch(DEV_CONFIG.googleSheets.scriptUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                // Send email notification
-                await emailjs.send(
-                    DEV_CONFIG.emailjs.serviceId,
-                    DEV_CONFIG.emailjs.templateId,
-                    {
-                        to_email: 'your-email@example.com',
-                        from_name: data.fullName,
-                        from_email: data.email,
-                        phone: data.phone,
-                        birth_date: data.birthDate,
-                        birth_time: data.birthTime || 'Not provided',
-                        birth_place: data.birthPlace,
-                        report_type: data.reportType,
-                        specific_questions: data.specificQuestions || 'None',
-                        timestamp: data.timestamp
-                    }
-                );
-
-                // Send customer confirmation email
-                await emailjs.send(
-                    DEV_CONFIG.emailjs.serviceId,
-                    DEV_CONFIG.emailjs.customerTemplateId,
-                    {
-                        to_email: data.email,
-                        customer_name: data.fullName,
-                        report_type: data.reportType,
-                        order_date: new Date().toLocaleDateString('en-IN')
-                    }
-                );
-
-                // Initiate Razorpay payment
-                const amount = reportPrices[data.reportType];
-                const options = {
-                    key: DEV_CONFIG.razorpay.keyId,
-                    amount: amount,
-                    currency: 'INR',
-                    name: 'Astrology Master',
-                    description: `${data.reportType.charAt(0).toUpperCase() + data.reportType.slice(1)} Astrology Report`,
-                    handler: function(response) {
-                        // Payment successful
-                        alert('Payment successful! You will receive your report within 24-48 hours via email.');
-                        closeBookingModal();
-                        document.getElementById('bookingForm').reset();
-                        
-                        // Update status in sheets as paid
-                        const paidData = {
-                            ...data,
-                            status: 'paid',
-                            payment_id: response.razorpay_payment_id,
-                            payment_date: new Date().toISOString()
-                        };
-                        
-                        fetch(DEV_CONFIG.googleSheets.scriptUrl, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(paidData)
-                        });
-                    },
-                    modal: {
-                        ondismiss: function() {
-                            // Payment failed or cancelled - still save lead
-                            const failedData = {
-                                ...data,
-                                status: 'payment_failed',
-                                failure_reason: 'Payment cancelled or failed',
-                                failure_date: new Date().toISOString()
-                            };
-                            
-                            fetch(DEV_CONFIG.googleSheets.scriptUrl, {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(failedData)
-                            });
-                            
-                            alert('Payment was cancelled. Your information has been saved and we will contact you soon with special offers!');
-                        }
-                    },
-                    prefill: {
-                        name: data.fullName,
-                        email: data.email,
-                        contact: data.phone
-                    },
-                    theme: {
-                        color: '#6a231d'
-                    }
-                };
-
-                const rzp = new Razorpay(options);
-                rzp.open();
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('There was an error processing your request. Please try again or contact support.');
-            } finally {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
         });
 
         // Header scroll effect
