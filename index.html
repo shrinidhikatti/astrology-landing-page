@@ -2447,15 +2447,15 @@
                 <div class="form-group">
                     <label>Choose Your Package *</label>
                     <div class="package-selection">
-                        <div class="package-option" onclick="selectPackage('pdf', 699)">
+                        <div class="package-option" onclick="selectPackage('pdf', 50)">
                             <input type="radio" name="package" value="pdf" id="pdfPackage">
                             <div class="package-title">PDF Report</div>
-                            <div class="package-price">₹699</div>
+                            <div class="package-price">₹50</div>
                         </div>
-                        <div class="package-option" onclick="selectPackage('print', 1199)">
+                        <div class="package-option" onclick="selectPackage('print', 50)">
                             <input type="radio" name="package" value="print" id="printPackage">
                             <div class="package-title">Print Book</div>
-                            <div class="package-price">₹1199</div>
+                            <div class="package-price">₹50</div>
                         </div>
                     </div>
                 </div>
@@ -2555,7 +2555,7 @@
                 phoneNumberId: '' // ❌ DISABLED - not real ID
             },
             razorpay: {
-                keyId: 'rzp_test_xxxxxxxxx'
+                keyId: 'rzp_test_ROAAffqtgZF2Oc'
             }
         };
 
@@ -2602,12 +2602,51 @@
             }
         });
 
+        // Create Razorpay order on server-side
+        async function createRazorpayOrder(orderData) {
+            try {
+                const response = await fetch('/api/orders/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: orderData.amount,
+                        currency: 'INR',
+                        customer_name: orderData.fullName,
+                        customer_email: orderData.email,
+                        package_type: orderData.package,
+                        birth_date: orderData.birthDate,
+                        birth_time: orderData.birthTime,
+                        birth_place: orderData.birthPlace,
+                        whatsapp: orderData.whatsapp,
+                        address: orderData.address
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    return data;
+                } else {
+                    throw new Error(data.error || 'Failed to create order');
+                }
+            } catch (error) {
+                console.error('Order creation failed:', error);
+                throw error;
+            }
+        }
+
         function processPayment(orderData) {
             // Show loading
             document.getElementById('loading').style.display = 'block';
             
             // TEST MODE - Smart payment simulation
-            const isTestMode = true; // Set to false when you want to use real Razorpay
+            const isTestMode = false; // Set to false when you want to use real Razorpay
             
             if (isTestMode) {
                 // Check if this is a failure test scenario
@@ -2634,14 +2673,16 @@
                 }
             }
             
-            // Real Razorpay configuration (when isTestMode = false)
-            const options = {
-                key: CONFIG.razorpay.keyId,
-                amount: orderData.amount * 100, // Amount in paise
-                currency: 'INR',
-                name: 'AstroVision',
-                description: `Personalized Astrology Report - ${orderData.package.toUpperCase()}`,
-                order_id: orderData.orderId,
+            // Server-side order creation for live payments
+            createRazorpayOrder(orderData)
+                .then(razorpayOrder => {
+                    const options = {
+                        key: CONFIG.razorpay.keyId,
+                        amount: razorpayOrder.amount, // Amount already in paise from server
+                        currency: razorpayOrder.currency,
+                        name: 'AstroVision',
+                        description: `Personalized Astrology Report - ${orderData.package.toUpperCase()}`,
+                        order_id: razorpayOrder.order_id,
                 prefill: {
                     name: orderData.fullName,
                     email: orderData.email,
@@ -2705,12 +2746,18 @@
                 }
             };
 
-            // Hide loading and open Razorpay checkout
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-                const rzp = new Razorpay(options);
-                rzp.open();
-            }, 1000);
+                    // Hide loading and open Razorpay checkout
+                    setTimeout(() => {
+                        document.getElementById('loading').style.display = 'none';
+                        const rzp = new Razorpay(options);
+                        rzp.open();
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.error('Failed to create order:', error);
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Failed to create order. Please try again.');
+                });
         }
 
         // 📊 HANDLE PAYMENT FAILURE - CAPTURE POTENTIAL CUSTOMER LEADS
