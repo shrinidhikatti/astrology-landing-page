@@ -577,7 +577,7 @@
 
         .instructor-content {
             display: grid;
-            grid-template-columns: 1.5fr 1.5fr;
+            grid-template-columns: 1fr 2fr;
             gap: 60px;
             align-items: center;
         }
@@ -1434,6 +1434,14 @@
 
             .container {
                 padding: 0 15px;
+            }
+            
+            /* Fix YouTube video for mobile */
+            div[style*="max-width: 800px"] {
+                padding: 0 10px;
+            }
+            div[style*="height: 450px"] {
+                height: 250px !important;
             }
         }
 
