@@ -35,7 +35,22 @@ initFiles.forEach(file => {
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https:", "fonts.googleapis.com"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https:", "checkout.razorpay.com", "*.razorpay.com"],
+            scriptSrcAttr: ["'unsafe-inline'"],
+            fontSrc: ["'self'", "https:", "data:", "fonts.gstatic.com"],
+            imgSrc: ["'self'", "data:", "https:", "*.youtube.com", "*.ytimg.com"],
+            frameSrc: ["'self'", "https://www.youtube.com", "https://checkout.razorpay.com", "https://api.razorpay.com", "https://*.razorpay.com"],
+            connectSrc: ["'self'", "https:", "*.razorpay.com", "api.razorpay.com"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: []
+        }
+    }
+}));
 app.use(morgan('combined'));
 app.use(cors({
     origin: process.env.CORS_ORIGIN || '*',
@@ -47,8 +62,8 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Static files (serve your HTML page)
-app.use(express.static('public'));
+// Static files (serve your HTML page and assets)
+app.use(express.static(__dirname));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

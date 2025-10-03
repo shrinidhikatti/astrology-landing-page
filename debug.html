@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Modal</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .close-btn {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: #6a231d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Page</h1>
+    <button onclick="testAlert()">Test Alert</button>
+    <button onclick="openTestModal()">Test Modal</button>
+    <button onclick="testConsole()">Test Console</button>
+    
+    <!-- Test Modal -->
+    <div class="modal" id="testModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeTestModal()">&times;</span>
+            <h2>Test Modal</h2>
+            <p>This is a test modal to verify functionality.</p>
+            <input type="text" placeholder="Test input">
+            <button onclick="closeTestModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function testAlert() {
+            alert('JavaScript is working!');
+        }
+        
+        function testConsole() {
+            console.log('Console log is working!');
+            console.error('This is a test error (ignore)');
+        }
+        
+        function openTestModal() {
+            console.log('Opening test modal...');
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.style.display = 'block';
+                console.log('Modal opened');
+            } else {
+                console.error('Modal not found');
+            }
+        }
+        
+        function closeTestModal() {
+            console.log('Closing test modal...');
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                modal.style.display = 'none';
+                console.log('Modal closed');
+            }
+        }
+        
+        // Test YouTube embed
+        window.onload = function() {
+            console.log('Page loaded');
+            console.log('Testing YouTube...');
+        }
+    </script>
+    
+    <h2>YouTube Test</h2>
+    <iframe width="560" height="315" 
+            src="https://www.youtube.com/embed/hyQGKr2SOj0" 
+            title="Test Video" 
+            frameborder="0" 
+            allowfullscreen>
+    </iframe>
+</body>
+</html>
