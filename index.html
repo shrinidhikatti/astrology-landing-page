@@ -2436,12 +2436,23 @@
 
                 <div class="form-group">
                     <label for="address">Postal Address *</label>
-                    <textarea id="address" name="address" rows="3" required></textarea>
+                    <textarea id="address" name="address" rows="3" required placeholder="House/Flat Number, Street, Area"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Pincode *</label>
+                        <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="pincode">Postal Pin Code *</label>
-                    <input type="text" id="pincode" name="pincode" required>
                 </div>
 
                 <div class="form-group">
@@ -2589,6 +2600,8 @@
                         whatsapp: formData.get('whatsapp'),
                         email: formData.get('email') || 'Not provided',
                         address: formData.get('address'),
+                        city: formData.get('city'),
+                        state: formData.get('state'),
                         pincode: formData.get('pincode'),
                         package: selectedPackage,
                         amount: selectedPrice,
@@ -2620,7 +2633,10 @@
                         birth_time: orderData.birthTime,
                         birth_place: orderData.birthPlace,
                         whatsapp: orderData.whatsapp,
-                        address: orderData.address
+                        address: orderData.address,
+                        city: orderData.city,
+                        state: orderData.state,
+                        pincode: orderData.pincode
                     })
                 });
 
