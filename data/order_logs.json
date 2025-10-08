@@ -20,5 +20,16 @@
       "amount": 50,
       "customer": "qwerty"
     }
+  },
+  {
+    "id": "e0e1aab6-ae14-40b4-955e-b7fedcfbab98",
+    "timestamp": "2025-10-08T18:58:27.844Z",
+    "type": "ORDER",
+    "data": {
+      "action": "created",
+      "order_id": "order_RR5OIUkoeaisvy",
+      "amount": 3,
+      "customer": "shridhar katti shiprocket"
+    }
   }
 ]

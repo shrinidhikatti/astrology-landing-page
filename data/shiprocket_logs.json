@@ -1,1 +1,133 @@
-[]
+[
+  {
+    "id": "42f96ee6-9f32-4eeb-b355-a40e7268858b",
+    "timestamp": "2025-10-08T19:05:10.538Z",
+    "type": "SHIPMENT_ERROR",
+    "data": {
+      "error": "Request failed with status code 422",
+      "input": {
+        "order_id": "order_RR5OIUkoeaisvy",
+        "customer_name": "shridhar katti shiprocket",
+        "customer_email": "chinn.katti@gmail.com",
+        "customer_phone": "9916137080",
+        "address": "ship",
+        "city": "Unknown",
+        "pincode": "000000",
+        "state": "Unknown",
+        "package_type": "print",
+        "amount": 3
+      }
+    }
+  },
+  {
+    "id": "046150f9-cdc8-4ad5-8b66-35bfa0521cb6",
+    "timestamp": "2025-10-08T19:06:44.167Z",
+    "type": "SHIPMENT_CREATED",
+    "data": {
+      "order_id": "order_RR5OIUkoeaisvy",
+      "customer_name": "shridhar katti shiprocket"
+    }
+  },
+  {
+    "id": "b9bd5c74-c9db-4af9-b1ee-6c58f57e32bf",
+    "timestamp": "2025-10-08T19:10:50.420Z",
+    "type": "SHIPMENT_CREATED",
+    "data": {
+      "order_id": "order_test_590001",
+      "customer_name": "shridhar katti test"
+    }
+  },
+  {
+    "id": "57158b7f-a2a1-45f9-a79f-3460a38e7010",
+    "timestamp": "2025-10-08T19:11:52.946Z",
+    "type": "SHIPMENT_CREATED",
+    "data": {
+      "order_id": "order_debug_test",
+      "customer_name": "Debug Test User",
+      "full_response": {
+        "message": "Wrong Pickup location entered. Please choose one location from the data given",
+        "data": {
+          "data": [
+            {
+              "phone_verified": 1,
+              "id": 11472043,
+              "pickup_location": "work",
+              "address": "home no 123 VM joshi vastru shasta workplace belagavi",
+              "address_2": "opposite to suvhash photo studio",
+              "city": "Belgaum",
+              "email": "shrivmjoshi@gmail.com",
+              "phone": "7760437800",
+              "seller_name": "vishal",
+              "state": "Karnataka",
+              "country": "India",
+              "status": 2,
+              "pin_code": "590001",
+              "lat": "15.8600746",
+              "long": "74.5101239",
+              "warehouse_code": null
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "5e2ae8d8-9af9-44d0-81d8-583952a9f006",
+    "timestamp": "2025-10-08T19:12:23.800Z",
+    "type": "SHIPMENT_CREATED",
+    "data": {
+      "order_id": "order_final_test",
+      "customer_name": "Final Test User",
+      "full_response": {
+        "message": "Wrong Pickup location entered. Please choose one location from the data given",
+        "data": {
+          "data": [
+            {
+              "phone_verified": 1,
+              "id": 11472043,
+              "pickup_location": "work",
+              "address": "home no 123 VM joshi vastru shasta workplace belagavi",
+              "address_2": "opposite to suvhash photo studio",
+              "city": "Belgaum",
+              "email": "shrivmjoshi@gmail.com",
+              "phone": "7760437800",
+              "seller_name": "vishal",
+              "state": "Karnataka",
+              "country": "India",
+              "status": 2,
+              "pin_code": "590001",
+              "lat": "15.8600746",
+              "long": "74.5101239",
+              "warehouse_code": null
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "2ef96137-b3cb-4848-ba25-cfe75d987c49",
+    "timestamp": "2025-10-08T19:13:17.029Z",
+    "type": "SHIPMENT_CREATED",
+    "data": {
+      "order_id": "order_success_test",
+      "shiprocket_order_id": 993990522,
+      "shipment_id": 990391955,
+      "awb_code": "",
+      "customer_name": "Success Test User",
+      "full_response": {
+        "order_id": 993990522,
+        "channel_order_id": "order_success_test",
+        "shipment_id": 990391955,
+        "status": "NEW",
+        "status_code": 1,
+        "onboarding_completed_now": 0,
+        "awb_code": "",
+        "courier_company_id": "",
+        "courier_name": "",
+        "new_channel": false,
+        "packaging_box_error": ""
+      }
+    }
+  }
+]

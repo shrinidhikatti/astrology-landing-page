@@ -52,7 +52,7 @@ class ShiprocketAPI {
             const shipmentData = {
                 order_id: orderData.order_id,
                 order_date: orderData.order_date,
-                pickup_location: "Primary", // You can customize this
+                pickup_location: "work", // Use the correct pickup location from Shiprocket
                 billing_customer_name: orderData.customer_name,
                 billing_last_name: "",
                 billing_address: orderData.billing_address,
@@ -233,13 +233,16 @@ router.post('/create', async (req, res) => {
 
         const shiprocketResponse = await shiprocket.createOrder(shipmentData);
 
+        console.log('🔍 Full Shiprocket API Response:', JSON.stringify(shiprocketResponse, null, 2));
+
         // Log successful shipment creation
         logShipment('SHIPMENT_CREATED', {
             order_id,
             shiprocket_order_id: shiprocketResponse.order_id,
             shipment_id: shiprocketResponse.shipment_id,
             awb_code: shiprocketResponse.awb_code,
-            customer_name
+            customer_name,
+            full_response: shiprocketResponse
         });
 
         res.json({
