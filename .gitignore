@@ -1,5 +1,5 @@
-# Environment variables
-.env
+# Environment variables (temporarily allowing .env for Railway deployment)
+# .env
 .env.local
 .env.production
 .env.staging
