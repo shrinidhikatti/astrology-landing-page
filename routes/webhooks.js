@@ -216,8 +216,8 @@ const handlePaymentCaptured = async (event) => {
         // Send confirmation email and update sheets
         await sendConfirmationEmail(updatedOrder, payment);
         
-        // Create shipment automatically for print orders
-        await createShipmentAfterPayment(updatedOrder, payment);
+        // Create shipment automatically for print orders (DISABLED - will enable after Shiprocket setup)
+        // await createShipmentAfterPayment(updatedOrder, payment);
         
         console.log(`✅ Order ${payment.order_id} processed successfully`);
     } else {
