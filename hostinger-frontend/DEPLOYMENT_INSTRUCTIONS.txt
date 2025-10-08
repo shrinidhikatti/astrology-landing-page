@@ -1,0 +1,26 @@
+🚀 HOSTINGER DEPLOYMENT INSTRUCTIONS
+
+1. UPLOAD THESE FILES TO: shaktikit.com/horoscopebook/
+   - index.html (main page)
+   - All .PNG, .JPG, .pdf files (images and sample report)
+
+2. BACKEND CONFIGURATION:
+   - Backend is hosted on Railway: https://astrology-landing-page-production.up.railway.app
+   - Frontend automatically connects to Railway backend
+   - No additional backend setup needed on Hostinger
+
+3. FINAL URLS:
+   - Frontend: https://shaktikit.com/horoscopebook/
+   - Backend API: https://astrology-landing-page-production.up.railway.app
+
+4. TESTING:
+   - After upload, test the payment flow
+   - Check that emails are received at: shrivmjoshi@gmail.com
+   - Verify orders are logged in Railway backend
+
+5. IMPORTANT:
+   - All payments go through live Razorpay (₹699)
+   - Order notifications sent to shrivmjoshi@gmail.com
+   - Google Sheets logging enabled
+
+✅ Ready for production use!
