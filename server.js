@@ -58,10 +58,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Body parser middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
-
 // Static files (serve your HTML page and assets)
 app.use(express.static(__dirname));
 
@@ -74,9 +70,15 @@ app.get('/health', (req, res) => {
     });
 });
 
-// API Routes
-app.use('/api/orders', orderRoutes);
+// Webhook routes BEFORE JSON parsing (need raw body)
 app.use('/api/webhooks', webhookRoutes);
+
+// Body parser middleware (AFTER webhook routes)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Other API Routes
+app.use('/api/orders', orderRoutes);
 app.use('/api/shipments', shipmentRoutes);
 app.use('/api/tracking', trackingRoutes);
 
