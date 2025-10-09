@@ -8,6 +8,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H64PH32JM2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-H64PH32JM2');
+    </script>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '420766007019286');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" 
+             src="https://www.facebook.com/tr?id=420766007019286&ev=PageView&noscript=1"/>
+    </noscript>
     <style>
         * {
             margin: 0;
@@ -2536,6 +2563,30 @@
             selectedPackage = packageType;
             selectedPrice = price;
             document.getElementById('totalAmount').textContent = price;
+            
+            // Track package selection
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'add_to_cart', {
+                    currency: 'INR',
+                    value: price,
+                    items: [{
+                        item_id: packageType,
+                        item_name: packageType === 'pdf' ? 'PDF Report' : 'Print Book',
+                        category: 'Astrology Report',
+                        quantity: 1,
+                        price: price
+                    }]
+                });
+            }
+            
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'AddToCart', {
+                    value: price,
+                    currency: 'INR',
+                    content_ids: [packageType],
+                    content_type: 'product'
+                });
+            }
         }
 
         // Global variables
@@ -2826,6 +2877,31 @@
                 // Save order and send notifications
                 await saveToGoogleSheets(completeOrderData);
                 await sendEmailNotification(completeOrderData);
+                
+                // Track successful purchase
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'purchase', {
+                        transaction_id: orderData.orderId,
+                        value: orderData.amount,
+                        currency: 'INR',
+                        items: [{
+                            item_id: orderData.packageType,
+                            item_name: orderData.packageType === 'pdf' ? 'PDF Report' : 'Print Book',
+                            category: 'Astrology Report',
+                            quantity: 1,
+                            price: orderData.amount
+                        }]
+                    });
+                }
+                
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Purchase', {
+                        value: orderData.amount,
+                        currency: 'INR',
+                        content_ids: [orderData.packageType],
+                        content_type: 'product'
+                    });
+                }
                 
                 // Success message
                 document.getElementById('loading').style.display = 'none';
