@@ -113,7 +113,7 @@ const createShipmentAfterPayment = async (order, paymentData) => {
 
         // Call shipment creation API
         const response = await axios.post(
-            `${process.env.NODE_ENV === 'production' ? 'https://yourdomain.com' : 'http://localhost:3000'}/api/shipments/create`,
+            `${process.env.NODE_ENV === 'production' ? 'https://astrology-landing-page-production.up.railway.app' : 'http://localhost:3000'}/api/shipments/create`,
             shipmentData
         );
 
