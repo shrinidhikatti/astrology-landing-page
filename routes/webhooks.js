@@ -14,10 +14,12 @@ const verifyWebhookSignature = (body, signature, secret) => {
         .update(body)
         .digest('hex');
     
-    return crypto.timingSafeEqual(
-        Buffer.from(signature),
-        Buffer.from(expectedSignature)
-    );
+    console.log('🔍 Signature verification:');
+    console.log('  Received signature:', signature);
+    console.log('  Expected signature:', expectedSignature);
+    console.log('  Secret used:', secret);
+    
+    return signature === expectedSignature;
 };
 
 // Helper function to log webhook events
